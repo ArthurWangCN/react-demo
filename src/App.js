@@ -1,10 +1,52 @@
 import "./styles.css";
 
-export default function App() {
-  return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-    </div>
-  );
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { Component } from "react";
+
+function Home() {
+  return <h2>Home</h2>;
 }
+
+function About() {
+  return <h2>About</h2>;
+}
+
+function Users() {
+  return <h2>Users</h2>;
+}
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <h1>app</h1>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/users">Users</Link>
+            </li>
+          </ul>
+        </div>
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+export default App;
