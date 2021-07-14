@@ -1,26 +1,58 @@
-import "./styles.css";
-
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import About from "./About";
 
-function Home() {
-  return <h2>Home</h2>;
-}
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+);
 
-function About() {
-  return <h2>About</h2>;
-}
+// const About = () => (
+//   <div>
+//     <h2>About</h2>
+//   </div>
+// );
 
-function Users() {
-  return <h2>Users</h2>;
-}
+const Topic = ({ match }) => (
+  <div>
+    <h3>{match.params.topicId}</h3>
+  </div>
+);
+
+const Topics = ({ match }) => {
+  console.log(match);
+
+  return (
+    <div>
+      <h2>Topics</h2>
+      <ul>
+        <li>
+          <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
+        </li>
+      </ul>
+
+      <Route path={`${match.path}/:topicId`} component={Topic} />
+      <Route
+        exact
+        path={match.path}
+        render={() => <h3>Please select a topic.</h3>}
+      />
+    </div>
+  );
+};
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
-          <h1>app</h1>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -29,21 +61,14 @@ class App extends Component {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/users">Users</Link>
+              <Link to="/topics">Topics</Link>
             </li>
           </ul>
+          <hr />
+          <Route exact path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/topics" component={Topics} />
         </div>
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
       </Router>
     );
   }
